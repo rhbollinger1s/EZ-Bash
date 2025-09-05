@@ -17,6 +17,8 @@ read -p "prompt: " prompt
 
 if [[ $prompt = "hello" ]]; then
 	echo "hello there, I am $EZBash. If you need help, enter the help command."
-else [[ $prompt = "help" ]]
+elif [[ $prompt = "help" ]]; then
 	echo -e "This is ez bash, a bash script to help you use the bash command line ez-ly.\nWe have the following commands:\nhello\nhelp."
+else
+	echo -e "The command you entered was not understood.\nIf you need help, enter the help command."
 fi
