@@ -1,4 +1,4 @@
-# EZ-BASH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# EZ-BASH
 
 ## DESCRIPTION
 EZ-Bash is a simple bash script to make the 
