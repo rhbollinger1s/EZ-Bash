@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#Shebang above. DO NOT REMOVE. DO NOT EDIT. DO NOT LOOK AT. DO NOT THROW TACO AT. Do however, have a nice long chat about chess with it. DO NOT PLAY CHESS WITH IT. Thou has been warned...
 
 : <<'END_COMMENT'
 ##################################################
