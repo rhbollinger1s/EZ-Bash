@@ -52,7 +52,19 @@ echo -e "you are starting at the $(pwd) file"
 
 #Intro Prompt
 echo -e "WECOME TO EZ-BASH, PLEASE ENTER COMMAND\nEnter Command list if you need a list of basic commands"
-read -p "prompt: " prompt
+read -p "prompt: " prompt "
+
+#functions
+updateSystem() {
+	if [[ $EUID -ne 0 ]]; then
+		echo "This command must be run as root"
+	else
+		echo -e "Updating system, please wait..."
+		sudo apt update && sudo apt upgrade -y
+	fi
+}
+
+#Check what command the user entered
 
 : <<'END_COMMENT'
 # A Commands
