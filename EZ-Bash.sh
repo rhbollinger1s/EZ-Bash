@@ -41,31 +41,80 @@ END_COMMENT
 date=$(date +%Y/%m/%d/_%H/%M/%S)
 EZBash= "EZ-Bash v1.0.0"
 ErrorCommandNotFound="This is ez bash, a bash script to help you use the bash command line ez-ly.\nEnter command list to list basic commands"
+distro="distroNameHere"
 
 #clear the screen
 clear
 
+#Check if root
+if [[ $EUID -ne 0 ]]; then
+	echo -e "Warning, EZ-Bash needs to be run as root for commands to work.\nReverting to bash shell."
+ 	exit
+fi
+ 
 #intro text
 echo -e "The date is: $date"
 echo -e "Your are using is $USER account"
-echo -e "you are starting at the $(pwd) file"
+echo -e "You are starting at the $(pwd) file"
+echo -e "Your distro is: $distro"
 
 #Intro Prompt
 echo -e "WECOME TO EZ-BASH, PLEASE ENTER COMMAND\nEnter Command list if you need a list of basic commands"
 read -p "prompt: " prompt "
 
 #functions
-updateSystem() {
+#Well, installPackage and updateSystem does check if root. This is unnessary, becase it checks if root in the start of the script, we keep it just in case somebody bypasses it...
+function updateSystem() {
 	if [[ $EUID -ne 0 ]]; then
 		echo "This command must be run as root"
 	else
 		echo -e "Updating system, please wait..."
-		sudo apt update && sudo apt upgrade -y
+  		if [[ $distro == mint || $distro ==  ubuntu || $distro ==  debian || $distro == || ]]; then
+			sudo apt update && sudo apt upgrade -y
+   		elif [[ $distro == arch ]]; then
+	 		echo -e "Arch updates can break things, as it is a rolling release distro.\nWe recommend updating only once a week."
+	 		read -p "Do you want to update now? (Y/N)" answer
+				if [[ answer == Y ]]; then
+					sudo pacman -Syu
+	 			else
+	 				return
+	 	else
+	fi
+ }
+function installPackage() {
+	if [[ $EUID -ne 0 ]]; then
+		echo "This command must be run as root"
+	else
+		echo -e "installing package... please wait."
+  		if [[ $distro == mint || $distro ==  ubuntu || $distro ==  debian || $distro == || ]]; then
+			echo -e "Remember, when installing packages, you should update your system.\nThe EZ-Bash command update will update your system"
+			sudo apt update && sudo apt install $1
+   		elif [[ $distro == arch ]]; then
+	 		echo -e "Remember, when installing arch packages, you should have a fairly up to date system."
+	 		sudo pacman -S $1
+	 	else
 	fi
 }
+: <<'END_COMMENT'
+function changeDir() {
+	
+}
+END_COMMENT
+: <<'END_COMMENT'
+function copyDir() {
+	
+}
+function removeDir() {
+	
+}
+END_COMMENT
+: <<'END_COMMENT'
+function makeDir() {
+	
+}
+END_COMMENT
 
 #Check what command the user entered
-
 : <<'END_COMMENT'
 # A Commands
 if [[ $prompt = "" ]]; then
