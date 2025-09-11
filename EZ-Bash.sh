@@ -92,22 +92,36 @@ function makeDir() {
 END_COMMENT
 
 #----------LIST OF COMMANDS IN A ARRAY----------
+#alphabetical order
 declare -a listOfCommands
-listOfCommands[0]="list "
-
+listOfCommands[0]="copy \"Copys a file from one location to another.\"\"\ne.g. \"\""
+listOfCommands[1]="goto \"Moves you from one file to another.\""
+listOfCommands[2]="list \"Prints a list of basic commands and usage.\"\"\ne.g. \"\""
+listOfCommands[3]="make file \"Makes an empty file.\"make file myListOfFavMovies"
+listOfCommands[4]="make folder \"Makes an empty folder.\"make folder scriptsAndJunk"
+listOfCommands[5]="move \"Moves a file or folder to another location.\"\"\ne.g. move ~/documents/document.txt ~/desktop\"\""
+listOfCommands[6]="update \"Updates you system to the newest packages.\"\ne.g. update\"\""
 
 #----------MAIN LOOP----------
+#case in alphabetical order
 while true; do
-	#Intro Prompt
-	read -p "prompt:"userPrompt"
+	#Intro Promptup
+	read -p "prompt: " userPrompt
 	case $userPrompt in
  		list)
-   			echo -e "Basic Commands Include\nlist \= list basic commands\nupdate \=updates"
+   			echo -e "Basic Commands Include\n"
    			;;
 	 	*)
    			echo -e "Error, command was not recognised.\nCheck spelling, or use command \"list\" to display commands."
-
 	esac
+
+
+
+
+
+
+
+
 
 
 
