@@ -108,31 +108,34 @@ while true; do
 	#Intro Promptup
 	read -p "prompt: " userPrompt
 	case $userPrompt in
+ 		copy)
+			echo -e "copy command not yet implemented"
+			;;
+   		goto)
+			echo -e "goto command not yet implemented"
+			;;
  		list)
    			echo -e "Basic Commands Include\n"
    			;;
-		update)
-			updateSystem
-			;;
-		install)
-			installPackage
-			;;
-		goto)
-			echo -e "goto command not yet implemented"
-			;;
 		make)
 			if [[ $userPrompt == "make file"* ]]; then
 				touch 
 			fi
 			;;
-		copy)
-			echo -e "copy command not yet implemented"
+		update)
+			updateSystem
 			;;
-		move)
+   		move)
 			echo -e "move command not yet implemented"
 			;;
-		exitTo
+		install)
+			installPackage
+			;;
+   		update)
+	 		updateSystem
+			;;
 	 	*)
    			echo -e "Error, command was not recognised.\nCheck spelling, or use command \"list\" to display commands."
+	  		;;
 	esac
 done
