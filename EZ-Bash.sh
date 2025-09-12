@@ -111,21 +111,28 @@ while true; do
  		list)
    			echo -e "Basic Commands Include\n"
    			;;
+		update)
+			updateSystem
+			;;
+		install)
+			installPackage
+			;;
+		goto)
+			echo -e "goto command not yet implemented"
+			;;
+		make)
+			if [[ $userPrompt == "make file"* ]]; then
+				touch 
+			fi
+			;;
+		copy)
+			echo -e "copy command not yet implemented"
+			;;
+		move)
+			echo -e "move command not yet implemented"
+			;;
+		exitTo
 	 	*)
    			echo -e "Error, command was not recognised.\nCheck spelling, or use command \"list\" to display commands."
 	esac
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+done
