@@ -20,15 +20,25 @@ END_COMMENT
 date=$(date +%Y/%m/%d/_%H/%M/%S)
 EZBash="EZ-Bash v1.0.0"
 ErrorCommandNotFound="This is ez bash, a bash script to help you use the bash command line ez-ly.\nEnter command list to list basic commands"
-distro="distroNameHere"
+distro="distroNameNotYetSet"
 
 #----------HELPERS AND UTILITIES----------
 #clear the screen
 clear
 
+#Check Distro
+if [ -f /etc/os-release ]; then
+	. /etc/os-release
+	distro=$ID
+else
+	echo "Error: Can't find system information or name. Your distro may not be supported."
+	echo "Please check if /etc/os-release exists, or manually set the 'distro' variable in this script."
+	exit 1
+fi
+
 #Check if root
 if [[ $EUID -ne 0 ]]; then
-	echo -e "Warning, EZ-Bash needs to be run as root for commands to work.\nReverting to bash shell."
+	echo -e "Error:EZ-Bash needs to be run as root for commands to work.\nPlease also note that sudo can be dangerous. Trust any script before runing it as root\nReverting to bash shell."
  	exit
 fi
 
