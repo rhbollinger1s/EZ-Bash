@@ -1,31 +1,16 @@
 # EZ-BASH
 
 ## DESCRIPTION
-EZ-Bash is a simple bash script to make the 
-command line less daunting for beginner bash
-shell users. It works on Arch, Ubuntu, Debian, Mint
-est. While the script is long, the commands are
-short. If you understand bash and want to help
-out, please dont hestate to commit to EZ-Bash.
--RHBollinger1s at github
+EZ-Bash is a beginner-friendly Bash script
+designed to simplify common command-line tasks.
+Supported distros: Arch, Ubuntu, Debian, Mint.
+Commands are easy to use and understand.
+Contributions are welcome!
+Author: RHBollinger1s at github
 
 ## HOW THE CODE WORKS
-While EZ-Bash doesnt have the best comments, it
-is a easy script to learn. The user enters a
-command, and we call that a prompt. Then, we run
-alot of ifs, 27, one for all english letters. If a
-command matches a command we support, it runs the
-code inside of the corresponding if statement. If
-not, it will echo the ErrorCommandNotFound var.
-The code is nicely cut up into chunks, all chunks
-have a header telling you what this one does.
-We do this so we dont have a billon bash scripts,
-everything is in one script. While you don't 
-want that most of the time, this script is one
-in a millon as we dont want are install to
-be hard to do. Why make bash EZ if you need to
-be a expert just to install the script. 
-Also, one other rule, unlike the linux kernel,
-we will have no cuss words in our code. If
-somebody just learned bash, and wanted to help
-open source, this is the place to do it.
+EZ-Bash is structured for clarity and ease of use. When a user enters a command at the prompt, the script checks if it matches any of the supported commands using a case statement for efficient branching. Each command is handled in its own section, clearly labeled with headers explaining its purpose.
+
+If the entered command is recognized, the corresponding code block executes. If not, the script displays an error message indicating the command was not found. All functionality is contained within a single script file to simplify installation and usage—no need to manage multiple files.
+
+The code avoids unnecessary complexity and is beginner-friendly, with no inappropriate language. New contributors are welcome, especially those learning Bash and open source development.

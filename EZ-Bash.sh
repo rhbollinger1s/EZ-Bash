@@ -3,16 +3,16 @@
 
 : <<'END_COMMENT'
 ##################################################
-EZ-BASH!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#                  EZ-BASH                       #
 ##################################################
-DESCRIPTION
-EZ-Bash is a simple bash script to make the 
-command line less daunting for beginner bash
-shell users. It works on Arch, Ubuntu, Debian, Mint
-est. While the script is long, the commands are
-short. If you understand bash and want to help
-out, please dont hestate to commit to EZ-Bash.
--RHBollinger1s at github
+# DESCRIPTION                                    #
+# EZ-Bash is a beginner-friendly Bash script      #
+# designed to simplify common command-line tasks. #
+# Supported distros: Arch, Ubuntu, Debian, Mint.  #
+# Commands are easy to use and understand.        #
+# Contributions are welcome!                      #
+#                                                 #
+# Author: RHBollinger1s (GitHub)                  #
 ##################################################
 END_COMMENT
 
@@ -56,7 +56,6 @@ function updateSystem() {
     echo "This command must be run as root"
     return 1
   fi
-
   echo -e "Updating system, please wait..."
   if [[ "$distro" == "mint" || "$distro" == "ubuntu" || "$distro" == "debian" ]]; then
     sudo apt update && sudo apt upgrade -y
@@ -72,17 +71,16 @@ function updateSystem() {
     echo "Unsupported distro: $distro"
   fi
 }
+
 function installPackage() {
   if [[ $EUID -ne 0 ]]; then
     echo "This command must be run as root"
     return 1
   fi
-
   if [[ -z "$1" ]]; then
     echo "Usage: install <package-name>"
     return 1
   fi
-
   echo -e "installing package... please wait."
   if [[ "$distro" == "mint" || "$distro" == "ubuntu" || "$distro" == "debian" ]]; then
     echo -e "Remember, when installing packages, you should update your system.\nThe EZ-Bash command update will update your system"
@@ -94,67 +92,114 @@ function installPackage() {
     echo "Unsupported distro: $distro"
   fi
 }
+
 : <<'END_COMMENT'
 function changeDir() {
 	
 }
 END_COMMENT
-: <<'END_COMMENT'
+
 function copyDir() {
-	
+	if [[ -z "$1" || -z "$2" ]]; then
+		echo "Usage: copy <source> <destination>"
+		return 1
+	else
+		cp $1 $2
+	fi
 }
-function removeDir() {
-	
-}
-END_COMMENT
+
 : <<'END_COMMENT'
-function makeDir() {
-	
+function removeDir() {
+	rm -rf $1
 }
 END_COMMENT
+
+function makeDir() {
+	if [[ -z "$1" ]]; then
+		echo "Usage: make folder <folder-name>"
+		return 1
+	elif [ -d "$1" ]; then
+		echo "Error: Folder $1 already exists."
+		return 1
+	else
+		echo -e "Making folder $1"
+		mkdir $1
+	fi
+}
+
+function makeFile() {
+	if [[ -z "$1" ]]; then
+		echo "Usage: make file <file-name>"
+		return 1
+	elif [ -f "$1" ]; then
+		echo "Error: File $1 already exists."
+		return 1
+	else
+		echo -e "Making file $1"
+		touch $1
+	fi
+}
 
 #----------LIST OF COMMANDS IN A ARRAY----------
 #alphabetical order
 declare -a listOfCommands
-listOfCommands[0]="copy \"Copys a file from one location to another.\"\"\ne.g. \"\""
-listOfCommands[1]="goto \"Moves you from one file to another.\""
-listOfCommands[2]="list \"Prints a list of basic commands and usage.\"\"\ne.g. \"\""
-listOfCommands[3]="make file \"Makes an empty file.\"make file myListOfFavMovies"
-listOfCommands[4]="make folder \"Makes an empty folder.\"make folder scriptsAndJunk"
-listOfCommands[5]="move \"Moves a file or folder to another location.\"\"\ne.g. move ~/documents/document.txt ~/desktop\"\""
-listOfCommands[6]="update \"Updates you system to the newest packages.\"\ne.g. update\"\""
+listOfCommands+=("clear \"Clears the screen.\"")
+listOfCommands+=("copy \"Copys a file from one location to another.\"")
+listOfCommands+=("goto \"Moves you from one file to another.\"")
+listOfCommands+=("list \"Prints a list of basic commands and usage.\"")
+listOfCommands+=("make file \"Makes an empty file. Usage: make file myListOfFavMovies\"")
+listOfCommands+=("make folder \"Makes an empty folder. Usage: make folder scriptsAndJunk\"")
+listOfCommands+=("move \"Moves a file or folder to another location.\"")
+listOfCommands+=("update \"Updates your system to the newest packages.\"")
 
 #----------MAIN LOOP----------
-#case in alphabetical order
 while true; do
-	#Intro Promptup
-	read -p "prompt: " userPrompt
-	case $userPrompt in
- 		copy)
-			echo -e "copy command not yet implemented"
+	# Prompt user for input
+	read -ra userInput
+	command="${userInput[0]}"
+	args=("${userInput[@]:1}")
+	case "$command" in
+		copy)
+			copyDir "${args[@]}"
 			;;
-   		goto)
-			echo -e "goto command not yet implemented"
+		goto)
+			if [[ -n "${args[0]}" ]]; then
+				cd "${args[0]}" && echo "Moved to $(pwd)"
+			else
+				echo "Usage: goto <directory>"
+			fi
 			;;
- 		list)
-   			echo -e "Basic Commands Include\n"
-   			;;
+		list)
+			echo -e "Basic Commands Include:\n"
+			for cmd in "${listOfCommands[@]}"; do
+				echo "$cmd"
+			done
+			;;
 		make)
-			if [[ $userPrompt == "make file"* ]]; then
-				touch 
+			if [[ "${args[0]}" == "file" && -n "${args[1]}" ]]; then
+				makeFile "${args[1]}"
+			elif [[ "${args[0]}" == "folder" && -n "${args[1]}" ]]; then
+				makeDir "${args[1]}"
+			else
+				echo "Usage: make file <file-name> OR make folder <folder-name>"
 			fi
 			;;
 		update)
 			updateSystem
 			;;
-   		move)
-			echo -e "move command not yet implemented"
+		move)
+			if [[ -n "${args[0]}" && -n "${args[1]}" ]]; then
+				mv "${args[0]}" "${args[1]}"
+			else
+				echo "Usage: move <source> <destination>"
+			fi
 			;;
-		exitTo)
-		  break
-		  ;;
+		exitTo|exit|quit)
+			echo -e "Exiting EZ-Bash, returning to bash shell.\nHave a nice day!"
+			break
+			;;
 		*)
-   			echo -e "Error, command was not recognised.\nCheck spelling, or use command \"list\" to display commands."
-	  		;;
+			echo -e "Error, command was not recognised.\nCheck spelling, or use command \"list\" to display commands."
+			;;
 	esac
 done
