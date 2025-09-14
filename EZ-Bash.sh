@@ -156,6 +156,9 @@ listOfCommands+=("update \"Updates your system to the newest packages.\"")
 #----------MAIN LOOP----------
 while true; do
 	# Prompt user for input
+	echo -n -e "\n$EZBash\n$USER@$(hostname):$(pwd)\$ "
+	# Read user input
+	IFS=' '  # Set space as delimiter
 	read -ra userInput
 	command="${userInput[0]}"
 	args=("${userInput[@]:1}")
