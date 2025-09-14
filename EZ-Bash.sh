@@ -146,6 +146,7 @@ declare -a listOfCommands
 listOfCommands+=("clear \"Clears the screen.\"")
 listOfCommands+=("copy \"Copys a file from one location to another.\"")
 listOfCommands+=("goto \"Moves you from one file to another.\"")
+listOfCommands+=("install \"Installs a package. Usage: install <package-name>\"")
 listOfCommands+=("list \"Prints a list of basic commands and usage.\"")
 listOfCommands+=("make file \"Makes an empty file. Usage: make file myListOfFavMovies\"")
 listOfCommands+=("make folder \"Makes an empty folder. Usage: make folder scriptsAndJunk\"")
@@ -159,6 +160,9 @@ while true; do
 	command="${userInput[0]}"
 	args=("${userInput[@]:1}")
 	case "$command" in
+		clear)
+			clear
+			;;
 		copy)
 			copyDir "${args[@]}"
 			;;
@@ -167,6 +171,13 @@ while true; do
 				cd "${args[0]}" && echo "Moved to $(pwd)"
 			else
 				echo "Usage: goto <directory>"
+			fi
+			;;
+		install)
+			if [[ -n "${args[0]}" ]]; then
+				installPackage "${args[@]}"
+			else
+				echo "Usage: install <package-name> [more-package-names]"
 			fi
 			;;
 		list)
