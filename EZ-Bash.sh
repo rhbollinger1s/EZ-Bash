@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#Shebang above. DO NOT REMOVE. DO NOT EDIT. DO NOT LOOK AT. DO NOT THROW TACO AT. Do however, have a nice long chat about chess with it. DO NOT PLAY CHESS WITH IT. Thou has been warned...
+#Shebang above.
 
 : <<'END_COMMENT'
 ##################################################
@@ -44,8 +44,8 @@ fi
 
 #intro text
 echo -e "The date is: $date"
-echo -e "Your are using is $USER account"
-echo -e "You are starting at the $(pwd) file"
+echo -e "Your signed in as $USER"
+echo -e "You are working in the $(pwd) file"
 echo -e "Your distro is: $distro"
 echo -e "WECOME TO EZ-BASH, PLEASE ENTER COMMAND\nEnter Command list if you need a list of basic commands"
 
@@ -146,42 +146,58 @@ declare -a listOfCommands
 listOfCommands+=("clear \"Clears the screen.\"")
 listOfCommands+=("copy \"Copys a file from one location to another.\"")
 listOfCommands+=("goto \"Moves you from one file to another.\"")
+listOfCommands+=("info \"Shows system information using the fastfetch app\"")
 listOfCommands+=("install \"Installs a package. Usage: install <package-name>\"")
+listOfCommands+=("ip \"checks your ip information. Usage: ip\"")
 listOfCommands+=("list \"Prints a list of basic commands and usage.\"")
 listOfCommands+=("make file \"Makes an empty file. Usage: make file myListOfFavMovies\"")
 listOfCommands+=("make folder \"Makes an empty folder. Usage: make folder scriptsAndJunk\"")
-listOfCommands+=("move \"Moves a file or folder to another location.\"")
+listOfCommands+=("move \"Moves a file or folder to another location. Usage: cd ~\"")
+listOfCommands+=("print \"Prints the contents of a file to $EZBash. Usage: show fileName\"")
 listOfCommands+=("update \"Updates your system to the newest packages.\"")
 
 #----------MAIN LOOP----------
 while true; do
 	# Prompt user for input
-	echo -n -e "\n$EZBash\n$USER@$(hostname):$(pwd)\$ "
+	echo -n -e "Username \: $USER at $(pwd) \: "
 	# Read user input
 	IFS=' '  # Set space as delimiter
-	read -ra userInput
+	read -r -a userInput
 	command="${userInput[0]}"
+ 	#args stands for arguments
 	args=("${userInput[@]:1}")
 	case "$command" in
-		clear)
+		clear || wash)
 			clear
 			;;
 		copy)
 			copyDir "${args[@]}"
 			;;
-		goto)
+		goto || changedir)
 			if [[ -n "${args[0]}" ]]; then
 				cd "${args[0]}" && echo "Moved to $(pwd)"
 			else
 				echo "Usage: goto <directory>"
 			fi
 			;;
-		install)
+   		info)
+	 		if command -v "$APP_COMMAND" &> /dev/null; then
+	 			fastfetch
+	 		else
+				echo "Installing fastfetch to show system info"
+				installPackage "fastfetch"
+			fi
+	 		;;
+		install || download || getApp || get)
 			if [[ -n "${args[0]}" ]]; then
 				installPackage "${args[@]}"
 			else
 				echo "Usage: install <package-name> [more-package-names]"
 			fi
+			;;
+   		ip)
+	 		# Needs work, not user friendly...
+	 		ip
 			;;
 		list)
 			echo -e "Basic Commands Include:\n"
@@ -198,15 +214,18 @@ while true; do
 				echo "Usage: make file <file-name> OR make folder <folder-name>"
 			fi
 			;;
-		update)
-			updateSystem
-			;;
-		move)
+   		move)
 			if [[ -n "${args[0]}" && -n "${args[1]}" ]]; then
 				mv "${args[0]}" "${args[1]}"
 			else
+   				echo "Sorry, command was not understood..."
 				echo "Usage: move <source> <destination>"
 			fi
+			;;
+   		print || show)
+	 		cat "${args[0]}"
+		update)
+			updateSystem
 			;;
 		exitTo|exit|quit)
 			echo -e "Exiting EZ-Bash, returning to bash shell.\nHave a nice day!"
