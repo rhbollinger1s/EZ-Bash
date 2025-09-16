@@ -167,13 +167,13 @@ while true; do
  	#args stands for arguments
 	args=("${userInput[@]:1}")
 	case "$command" in
-		clear || wash)
+		clear | wash)
 			clear
 			;;
 		copy)
 			copyDir "${args[@]}"
 			;;
-		goto || changedir)
+		goto | changedir)
 			if [[ -n "${args[0]}" ]]; then
 				cd "${args[0]}" && echo "Moved to $(pwd)"
 			else
@@ -188,7 +188,7 @@ while true; do
 				installPackage "fastfetch"
 			fi
 	 		;;
-		install || download || getApp || get)
+		install | download | getApp | get)
 			if [[ -n "${args[0]}" ]]; then
 				installPackage "${args[@]}"
 			else
@@ -222,12 +222,13 @@ while true; do
 				echo "Usage: move <source> <destination>"
 			fi
 			;;
-   		print || show)
+   		print | show)
 	 		cat "${args[0]}"
+			;;
 		update)
 			updateSystem
 			;;
-		exitTo|exit|quit)
+		exitTo | exit | quit)
 			echo -e "Exiting EZ-Bash, returning to bash shell.\nHave a nice day!"
 			break
 			;;
