@@ -1,5 +1,5 @@
 # EZ-BASH
-
+## No longer updated, do not use. 
 ## DESCRIPTION
 EZ-Bash is a beginner-friendly Bash script
 designed to simplify common command-line tasks.
